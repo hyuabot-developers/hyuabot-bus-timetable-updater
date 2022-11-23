@@ -5,7 +5,7 @@ from aiohttp import ClientTimeout, ClientSession
 from sqlalchemy import insert, delete
 from sqlalchemy.orm import Session
 
-from models.bus import BusTimetable
+from models import BusTimetable
 
 
 async def get_timetable_data(db_session: Session, route_name: str, route_id: str) -> None:
