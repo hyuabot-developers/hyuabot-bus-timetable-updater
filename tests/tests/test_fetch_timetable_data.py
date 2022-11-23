@@ -1,6 +1,5 @@
 import asyncio
 import datetime
-from collections import defaultdict
 
 import pytest
 from sqlalchemy import select
@@ -9,8 +8,8 @@ from sqlalchemy.orm import Session, sessionmaker
 
 from models import BaseModel, BusRoute, BusTimetable
 from scripts.timetable import get_timetable_data
-from utils.database import get_db_engine
 from tests.insert_bus_information import initialize_bus_data
+from utils.database import get_db_engine
 
 
 class TestFetchTimetableData:

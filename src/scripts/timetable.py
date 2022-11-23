@@ -36,4 +36,3 @@ async def get_timetable_data(db_session: Session, route_name: str, route_id: str
         insert_statement = insert(BusTimetable).values(timetable_items)
         db_session.execute(insert_statement)
     db_session.commit()
-
