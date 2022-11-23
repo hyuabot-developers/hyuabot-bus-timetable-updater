@@ -39,7 +39,7 @@ class BusRoute(BaseModel):
 
 class BusTimetable(BaseModel):
     __tablename__ = "bus_timetable"
-    __table_args__ = (PrimaryKeyConstraint("route_id", "start_stop_id", "departure_time"),)
+    __table_args__ = (PrimaryKeyConstraint("route_id", "start_stop_id", "weekday", "departure_time"),)
     route_id: Mapped[int] = mapped_column(ForeignKey("bus_route.route_id"), nullable=False)
     start_stop_id: Mapped[int] = mapped_column(ForeignKey("bus_stop.stop_id"), nullable=False)
     departure_time: Mapped[datetime.time] = mapped_column(Time, nullable=False)
