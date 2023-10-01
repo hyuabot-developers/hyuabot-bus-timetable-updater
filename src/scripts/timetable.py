@@ -13,8 +13,8 @@ async def get_timetable_data(db_session: Session, route_name: str, route_id: str
     for weekday in ["weekdays", "saturday", "sunday"]:
         url = ""
         try:
-            url = "https://raw.githubusercontent.com/hyuabot-developers/hyuabot-bus-timetable/" \
-                  f"feat/add-start-stop/{route_name}/{weekday}/timetable.csv"
+            url = "https://raw.githubusercontent.com/jil8885/hyuabot-bus-timetable/" \
+                  f"main/{route_name}/{weekday}/timetable.csv"
             timeout = ClientTimeout(total=3.0)
             async with ClientSession(timeout=timeout) as session:
                 async with session.get(url) as response:
@@ -23,7 +23,7 @@ async def get_timetable_data(db_session: Session, route_name: str, route_id: str
                         timetable_items.append({
                             "route_id": route_id,
                             "start_stop_id": start_stop_id,
-                            "departure_time": departure_time,
+                            "departure_time": f'{departure_time} +09:00',
                             "weekday": weekday,
                         })
         except asyncio.exceptions.TimeoutError:
