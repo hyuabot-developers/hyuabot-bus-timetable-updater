@@ -5,16 +5,17 @@ from bs4 import BeautifulSoup
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.orm import Session
 
-from models import BusRoute, BusStop
+from models import BusRoute, BusStop, BusRouteStop
 
 
 async def initialize_bus_data(db_session: Session):
     await insert_bus_stop(db_session)
     await insert_bus_route(db_session)
+    await insert_bus_route_stop(db_session)
 
 
 async def insert_bus_stop(db_session: Session):
-    keywords = ["경기테크노파크", "한양대", "한국생산기술연구원", "성안길입구", "신안산대학교",
+    keywords = ["경기테크노파크", "한양대", "한국생산기술연구원", "성안길입구", "신안산대학교", "원시역",
                 "새솔고", "상록수역", "수원역", "강남역우리은행", "본오동", "한라비발디1차", "푸르지오6차후문",
                 "선부동차고지", "안산역", "경인합섬앞", "오목천차고지"]
     tasks = [fetch_bus_stop(db_session, keyword) for keyword in keywords]
@@ -141,3 +142,26 @@ async def insert_bus_route_item(db_session: Session, route_id: str):
         print("TimeoutError", url)
     except AttributeError:
         print("AttributeError", url)
+
+
+async def insert_bus_route_stop(db_session: Session):
+    bus_route_stop_list = [
+        dict(route_id="216000026", stop_id="216000719", stop_sequence=12),  # 3100(한양대정문)
+        dict(route_id="216000096", stop_id="216000719", stop_sequence=12),  # 3100N(한양대정문)
+        dict(route_id="216000043", stop_id="216000719", stop_sequence=12),  # 3101(한양대정문)
+        dict(route_id="216000070", stop_id="216000719", stop_sequence=10),  # 707-1(한양대정문)
+        dict(route_id="216000061", stop_id="216000379", stop_sequence=19),  # 3102(ERICA컨벤션센터)
+        dict(route_id="216000068", stop_id="216000379", stop_sequence=21),  # 10-1(ERICA컨벤션센터)
+        dict(route_id="216000068", stop_id="216000138", stop_sequence=28),  # 10-1(상록수역3번출구)
+        dict(route_id="216000016", stop_id="216000152", stop_sequence=16),  # 62(성안길입구)
+        dict(route_id="217000014", stop_id="216000070", stop_sequence=31),  # 110(한양대입구)
+        dict(route_id="216000001", stop_id="216000070", stop_sequence=20),  # 707(한양대입구)
+        dict(route_id="200000015", stop_id="216000070", stop_sequence=50),  # 909(한양대입구)
+    ]
+    insert_statement = insert(BusRouteStop).values(bus_route_stop_list)
+    insert_statement = insert_statement.on_conflict_do_update(
+        constraint="pk_bus_route_stop",
+        set_=dict(stop_sequence=insert_statement.excluded.stop_sequence),
+    )
+    db_session.execute(insert_statement)
+    db_session.commit()
