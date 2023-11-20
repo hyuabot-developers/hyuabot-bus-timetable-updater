@@ -32,7 +32,7 @@ async def execute_script(session):
                   session.execute(route_query)]
     job_list = []
     for route_name, route_id in route_list:
-        if route_name in ["62", "909"]:
+        if route_name in ["62", "9090"]:
             continue
         job_list.append(get_timetable_data(session, route_name, route_id))
     await asyncio.gather(*job_list)
