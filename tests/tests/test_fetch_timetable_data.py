@@ -50,7 +50,7 @@ class TestFetchTimetableData:
         # Check if the data is inserted
         timetable_list = session.query(BusTimetable).all()
         for timetable_item in timetable_list:  # type: BusTimetable
-            assert type(timetable_item.route_id) == int
-            assert type(timetable_item.start_stop_id) == int
-            assert type(timetable_item.departure_time) == datetime.time
-            assert type(timetable_item.weekday) == str
+            assert isinstance(timetable_item.route_id, int)
+            assert isinstance(timetable_item.start_stop_id, int)
+            assert isinstance(timetable_item.departure_time, datetime.time)
+            assert isinstance(timetable_item.weekday, str)
