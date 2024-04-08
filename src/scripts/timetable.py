@@ -13,7 +13,7 @@ async def get_timetable_data(db_session: Session, route_name: str, route_id: str
     for weekday in ["weekdays", "saturday", "sunday"]:
         url = ""
         try:
-            url = "https://raw.githubusercontent.com/jil8885/hyuabot-bus-timetable/" \
+            url = "https://raw.githubusercontent.com/hyuabot-developers/hyuabot-bus-timetable/" \
                   f"main/{route_name}/{weekday}/timetable.csv"
             timeout = ClientTimeout(total=3.0)
             async with ClientSession(timeout=timeout) as session:
