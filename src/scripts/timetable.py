@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 from models import BusTimetable
 
 
-async def get_timetable_data(db_session: Session, route_name: str, route_id: str) -> None:
+async def get_timetable_data(db_session: Session, route_name: str, route_id: int) -> None:
     timetable_items: list[dict] = []
     for weekday in ["weekdays", "saturday", "sunday"]:
         url = ""
@@ -19,9 +19,9 @@ async def get_timetable_data(db_session: Session, route_name: str, route_id: str
             async with ClientSession(timeout=timeout) as session:
                 async with session.get(url) as response:
                     reader = csv.reader((await response.text()).splitlines())
-                    for route_id, start_stop_id, departure_time in reader:
+                    for timetable_route_id, start_stop_id, departure_time in reader:
                         timetable_items.append({
-                            "route_id": route_id,
+                            "route_id": timetable_route_id,
                             "start_stop_id": start_stop_id,
                             "departure_time": departure_time,
                             "weekday": weekday,
