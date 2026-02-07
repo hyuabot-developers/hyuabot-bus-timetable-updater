@@ -17,7 +17,7 @@ async def initialize_bus_data(db_session: Session):
 async def insert_bus_stop(db_session: Session):
     keywords = ["경기테크노파크", "한양대", "한국생산기술연구원", "성안길입구", "신안산대학교", "원시역",
                 "새솔고", "상록수역", "수원역", "강남역우리은행", "본오동", "한라비발디1차", "푸르지오6차후문",
-                "선부동차고지", "안산역", "경인합섬앞", "오목천차고지"]
+                "선부동차고지", "안산역", "경인합섬앞", "오목천차고지", "안산해솔초등학교"]
     tasks = [fetch_bus_stop(db_session, keyword) for keyword in keywords]
     await asyncio.gather(*tasks)
     db_session.commit()
@@ -69,7 +69,7 @@ async def fetch_bus_stop(db_session: Session, keyword: str):
 
 
 async def insert_bus_route(db_session: Session):
-    routes = ["10-1", "62", "3100", "3101", "3102", "110", "7070", "9090", "707-1"]
+    routes = ["10-1", "62", "3100", "3101", "3102", "7070", "9090"]
     tasks = [fetch_bus_route_list(db_session, route) for route in routes]
     await asyncio.gather(*tasks)
     db_session.commit()
@@ -168,12 +168,10 @@ async def insert_bus_route_stop(db_session: Session):
         dict(route_id="216000026", stop_id="216000719", stop_sequence=12),  # 3100(한양대정문)
         dict(route_id="216000096", stop_id="216000719", stop_sequence=12),  # 3100N(한양대정문)
         dict(route_id="216000043", stop_id="216000719", stop_sequence=12),  # 3101(한양대정문)
-        dict(route_id="216000070", stop_id="216000719", stop_sequence=10),  # 707-1(한양대정문)
         dict(route_id="216000061", stop_id="216000379", stop_sequence=19),  # 3102(ERICA컨벤션센터)
         dict(route_id="216000068", stop_id="216000379", stop_sequence=21),  # 10-1(ERICA컨벤션센터)
         dict(route_id="216000068", stop_id="216000138", stop_sequence=28),  # 10-1(상록수역3번출구)
         dict(route_id="216000016", stop_id="216000152", stop_sequence=16),  # 62(성안길입구)
-        dict(route_id="217000014", stop_id="216000070", stop_sequence=31),  # 110(한양대입구)
         dict(route_id="216000104", stop_id="216000070", stop_sequence=20),  # 7070(한양대입구)
         dict(route_id="200000015", stop_id="216000070", stop_sequence=50),  # 9090(한양대입구)
     ]
