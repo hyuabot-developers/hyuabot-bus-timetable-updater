@@ -1,4 +1,4 @@
-name: Build docker image and push to registry
+name: Deploy Docker Image
 on:
   pull_request:
     branches:
