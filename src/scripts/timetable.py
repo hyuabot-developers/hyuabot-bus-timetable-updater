@@ -35,8 +35,7 @@ async def get_timetable_data(db_session: Session, route_name: str, route_id: str
             print("TimeoutError")
         except AttributeError:
             print("AttributeError", url)
-    db_session.execute(delete(BusTimetable).where(BusTimetable.route_id == route_id and
-                                                  BusTimetable.start_stop_id == start_stop_id))
+    db_session.execute(delete(BusTimetable).where(BusTimetable.route_id == route_id))
     if timetable_items:
         insert_statement = insert(BusTimetable).values(timetable_items)
         db_session.execute(insert_statement)
