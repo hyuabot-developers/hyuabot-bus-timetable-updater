@@ -31,6 +31,7 @@ class TestFetchTimetableData:
         cls.session.commit()
         cls.session.close()
 
+    @pytest.mark.integration
     @pytest.mark.asyncio
     async def test_fetch_realtime_data(self):
         connection = get_db_engine()
